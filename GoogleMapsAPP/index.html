@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0" maximum-scale=1.0, user-scalable=1>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icon-512.png">
+    <link rel="apple-touch-startup-image" href="images/launch-image.png">
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 70%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div class="btn-group">
+        <button id="KTHCentering" onclick="KTH()">KTH</button>
+        <button id="KaknasCentering" onclick="Kaknas()">Kaknas</button>
+        <button id="here" onclick="GetCurrentLocation()">Current Location</button>
+        <button id="zoomIn" onclick="ZoomIn()">&#43</button>
+        <button id="zoomOut" onclick="ZoomOut()">&#8722;</button>
+        <button id="panUp" onclick="PanUp()">&#8607;</button>
+        <button id="panDown" onclick="PanDown()">&#8609</button>
+        <button id="panRight" onclick="PanRight()">&#8608;</button>
+        <button id="panLeft" onclick="PanLeft()">&#8606;</button>
+        <button id="mapView" onclick="MapViewControl()">Map View</button>
+        <button id="satelliteView" onclick="SatelliteViewControl()">Satellite View</button>
+    </div>
+
+    <script>
+        var map;
+        var infoWindow;
+        var kth = { lat: 59.3498092, lng: 18.0684758 };
+        var kaknas = { lat: 59.334984, lng: 18.126389 };
+        var kthInfo = "KTH is where some people spend all their time." +
+            "This makes it hard to have any other favourite place."
+        var kaknasInfo = "This is Kaknästornet, the tallest building in Stockholm! (probably) "
+            + "It's kind of Sweden's version of the Eiffel tower.";
+        var mapOptions = {
+            disableDefaultUI: true,
+            center: kth,
+            zoom: 12,
+            mapTypeId: 'terrain',
+        }
+
+        function KTH() {
+            map.setCenter(kth);
+        }
+
+        function Kaknas() {
+            map.setCenter(kaknas);
+        }
+
+        function GetCurrentLocation() {
+            infoWindow = new google.maps.InfoWindow;
+            //https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('Location found.');
+                infoWindow.open(map);
+                map.setCenter(pos);
+            });
+        }
+
+        function ZoomIn() {
+            map.setZoom(map.getZoom() + 1);
+        }
+
+        function ZoomOut() {
+            map.setZoom(map.getZoom() - 1);
+        }
+
+        function PanUp() {
+            map.panBy(0, -100);
+        }
+
+        function PanDown() {
+            map.panBy(0, 100);
+        }
+
+        function PanRight() {
+            map.panBy(100, 0);
+        }
+
+        function PanLeft() {
+            map.panBy(-100, 0);
+        }
+
+        function MapViewControl() {
+            map.setMapTypeId('terrain');
+        }
+
+        function SatelliteViewControl() {
+            map.setMapTypeId('satellite');
+        }
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            var marker1 = new google.maps.Marker({
+                position: kaknas,
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.BOUNCE
+            });
+            var marker1Info = new google.maps.InfoWindow({
+                content: kaknasInfo
+            });
+            marker1.addListener('click', function () {
+                marker1Info.open(map, marker1);
+            });
+            var marker2 = new google.maps.Marker({
+                position: kth,
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP
+            });
+            var marker2Info = new google.maps.InfoWindow({
+                content: kthInfo
+            });
+            marker2.addListener('click', function () {
+                marker2Info.open(map, marker2);
+            });
+        
+            var customMarker = new google.maps.Marker({
+                    position: kth,
+                    icon: 'images/icon-192.png',
+                    map: map
+                });
+            customMarker.addListener('click', function () {
+                marker2Info.open(map, marker2);
+            });      
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+</body>
+
+</html>
