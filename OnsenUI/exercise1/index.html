@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+	<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+	<script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+	<meta name="viewport" content="width=device-width, user-scalable=no,
+		shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>Basic Template App</title>
+	<style>
+		@import 'ui/css/evothings-app.css';
+	</style>
+</head>
+
+<body ontouchstart="" position="relative">
+	<ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
+	<template id="home.html">
+		<ons-page id="home">
+			<ons-toolbar style="background-color: pink; background-position: 0% ">
+				<div class="center">Header bar</div>
+			</ons-toolbar>
+			<P>Sports Center Club</P>
+			<ons-button style="background-color: black; color: white; font-style: italic " id="about">About</ons-button>
+			<ons-list>
+				<ons-list-header>List of Sports:</ons-list-header>
+				<ons-list-item back style="background-color:yellow; color: black; font-size: large " tappable tap-background-color
+					id="volley">Volleyball</ons-list-item>
+				<ons-list-item style="background-color: green; color: black; font-size: large " tappable tap-background-color
+					id="tennis">Tennis</ons-list-item>
+				<ons-list-item style="background-color: greenyellow; color: black;  font-size: large" tappable tap-background-color
+					id="basket">Basketball</ons-list-item>
+			</ons-list>
+		</ons-page>
+	</template>
+
+	<template id="about.html">
+		<ons-page id="about">
+			<ons-toolbar style="background-color: pink; background-position: 0% ">
+				<div class="center">Header bar</div>
+				<ons-back-button>Back</ons-back-button>
+			</ons-toolbar>
+			<p>This page provides the different sports that can be playes in
+				this club and relevant information regarding those sports.</p>
+		</ons-page>
+	</template>
+
+	<template id="volleyball.html">
+		<ons-page id="volley">
+			<ons-toolbar style="background-color: pink; background-position: 0% ">
+				<div class="center">Header bar</div>
+				<ons-back-button>Back</ons-back-button>
+			</ons-toolbar>
+			<p>Volleyball is a popular team sport in which two teams of six players are separated by a net.
+				Each team tries to score points by grounding a ball on the other team's court under organized rules.
+				It has been a part of the official program of the Summer Olympic Games since Tokyo 1964.</p>
+			<img src="images/volley.png" position="left" width="100%">
+		</ons-page>
+	</template>
+
+	<template id="tennis.html">
+		<ons-page id="tennis">
+			<ons-toolbar style="background-color: pink; background-position: 0% ">
+				<div class="center">Header bar</div>
+				<ons-back-button>Back</ons-back-button>
+			</ons-toolbar>		
+			<p>Tennis is a racket sport that can be played individually against a single opponent
+				(singles) or between two teams of two players each (doubles). Each player uses a tennis
+				racket that is strung with cord to strike a hollow rubber ball covered with felt over
+				or around a net and into the opponent's court. </p>
+			<img src="images/tennis.png" position="left" width="100%">
+		</ons-page>
+	</template>
+
+	<template id="basket.html">
+		<ons-page id="basket">
+			<ons-toolbar style="background-color: pink; background-position: 0% ">
+				<div class="center">Header bar</div>
+				<ons-back-button>Back</ons-back-button>
+			</ons-toolbar>	
+			<p>Basketball is a team sport in which two teams, most commonly of five players each,
+				opposing one another on a rectangular court, compete with the primary objective of
+				shooting a basketball (approximately 9.4 inches (24 cm) in diameter) through the defender's
+				hoop (a basket 18 inches (46 cm) in diameter mounted 10 feet (3.048 m) high to a backboard
+				at each end of the court) while preventing the opposing team from shooting through their own hoop. </p>
+			<img src="images/basketball.png" position="left" width="100%">
+		</ons-page>
+	</template>
+
+	<script>
+		if (window.hyper && window.hyper.log) { console.log = hyper.log }
+		document.addEventListener('init', function (event) {
+			var page = event.target;
+
+			if (page.id === 'home') {
+				page.querySelector('#about').onclick = function () {
+					document.querySelector('#myNavigator').pushPage('about.html');
+				};
+				page.querySelector('#volley').onclick = function () {
+					document.querySelector('#myNavigator').pushPage('volleyball.html');
+				};
+				page.querySelector('#tennis').onclick = function () {
+					document.querySelector('#myNavigator').pushPage('tennis.html');
+				};
+				page.querySelector('#basket').onclick = function () {
+					document.querySelector('#myNavigator').pushPage('basket.html');
+				};
+			} else {
+				document.querySelector('ons-back-button').onClick = function (event) {
+					// Reset the whole stack instead of popping 1 page
+					document.querySelector('ons-navigator').resetToPage('home.html');
+				};
+			}
+		});
+	</script>
+</body>
+</html>
