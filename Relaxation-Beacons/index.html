@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta
+		name="viewport"
+		content="width=device-width, user-scalable=yes,
+		initial-scale=1.0"
+	/>
+	<title>Relaxation iBeacons</title>
+	<style>
+		@import 'page.css';
+	</style>
+	<script>
+		// Redirect console if running from Evothings Workbench.
+		if (window.hyper) { console.log = hyper.log }
+	</script>
+</head>
+
+<body>
+	<div
+		class="my-page"
+		id="page-default"
+	>
+		<div class="my-header">
+			<img
+				class="my-header-image"
+				src="photos/KTH_Logotyp_RGB_2013.png"
+			/>
+		</div>
+		<div class="my-content">
+			<h1>KTH info</h1>
+			<p>Please move within range of the info-beacons.</p>
+		</div>
+	</div>
+	<div
+		class="my-page"
+		id="page-konsthallen"
+	>
+		<div class="my-header">
+			<img
+				class="my-header-image"
+				src="photos/island-desert.jpg"
+			/>
+		</div>
+		<div class="my-content">
+			<h1>Konsthallen</h1>
+			<ul>
+				<p>Detta är förmodligen konsthallen. Här har ingen människa förut satt sin fot. Grattis till denna historiska
+					upptäckt!</p>
+			</ul>
+		</div>
+	</div>
+	<div
+		class="my-page"
+		id="page-musiksalen"
+	>
+		<div class="my-header">
+			<img
+				class="my-header-image"
+				src="photos/musiksalen.jpg"
+			/>
+		</div>
+		<div class="my-content">
+			<h1>Musiksalen</h1>
+			<p>Musiksalen är en studiesal som återfinns på Lindstedtsvägen 5, D-huset, huvudbyggnaden, våningsplan 5, KTH
+				Campus. En handikappsingång finns via Lindstedtsvägen 9. Du känner nog redan till all relevant fakta här
+				eftersom du just nu befinner dig i musiksalen! Men ja det kan ju vara kul ändå, om du ska beskriva vägen för en
+				kompis eller något.</p>
+		</div>
+	</div>
+	<div
+		class="my-page"
+		id="page-sporthallen"
+	>
+		<div class="my-header">
+			<img
+				class="my-header-image"
+				src="photos/Sporthall inne.JPG"
+			/>
+		</div>
+		<div class="my-content">
+			<h1>Sporthallen</h1>
+			<p>Detta är sporthallen! Den är myket unik och inte alls som musiksalen. Men om du vill veta var exempelvis
+				handikappsingången finns så får du ta dig till musiksalen ändå, info finns där!</p>
+		</div>
+	</div>
+	<script src="lib/jquery.js"></script>
+	<script src="cordova.js"></script>
+	<script src="app.js"></script>
+</body>
+
+</html>
