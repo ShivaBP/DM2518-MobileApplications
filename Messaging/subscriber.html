@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Subscriber!</title>
+</head>
+
+<body>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+  <!-- Instantiate PubNub -->
+  <script type="text/javascript">
+    var pubnubDemo = new PubNub({
+      publishKey: 'pub-c-7ce57a07-f9d2-4baf-8a7b-e57c2d361c54',
+      subscribeKey: 'sub-c-e9db0d3e-70bb-11e9-a1d6-2a8c316da507'
+    });
+
+    pubnubDemo.addListener({
+      message: function (message) {
+        console.log(message)
+      }
+    })
+    pubnubDemo.subscribe({
+      channels: ['demo_tutorial']
+    });
+  </script>
+</body>
+
+</html>
