@@ -20,43 +20,59 @@
 
 <body ontouchstart="">
   <!-- ontouchstart="" enables low-delay CSS transitions. -->
-  <p id=”heading”>Everybody say wheyo</p>
-  <button onclick="pub()">Publish stuff!</button>
+  <p id='heading'>orientation</p>
+  <p id='subscription'>Subscribed to None</p>
+  <button onclick="pub('Everybody say weho')">Publish stuff current channel!</button>
+  <button onclick="setOrientation()">Subscribe to channel</button>
+  <p id='messages'></p>
   <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
   <!-- Instantiate PubNub -->
   <script type="text/javascript">
+    console.log('Script running!');
+    var rot = 0; // rotation
+    var ori = 'north'; // orientation
+
     var pubnubDemo = new PubNub({
       publishKey: 'pub-c-7ce57a07-f9d2-4baf-8a7b-e57c2d361c54',
       subscribeKey: 'sub-c-e9db0d3e-70bb-11e9-a1d6-2a8c316da507'
     });
-    function pub() {
-      // Publish a simple message to the “demo_tutorial” channel pubnub:
-      pubnubDemo.publish({ message: { "color": "blue" }, channel: 'demo_tutorial' });
+
+    pubnubDemo.addListener({
+      message: function (message) {
+        console.log('Phone recieved message: ' + message.message);
+        let m = message.message + '<br />';
+        document.getElementById('messages').innerHTML += m;
+      }
+    });
+    // Publish message m on channel ori
+    function pub(m) {
+      console.log('Phone publishing ' + m + ' on ' + ori);
+      pubnubDemo.publish({ message: m, channel: ori });
     }
-
-
-  </script>
-  <script>
-    // Get event data
-    function deviceOrientationListener(event) {
-      var alpha = event.alpha; //z axis rotation [0,360)
-      var beta = event.beta; //x axis rotation [-180, 180]
-      var gamma = event.gamma; //y axis rotation [-90, 90]
-
-
-      //Check if absolute values have been sent
-      if (typeof event.webkitCompassHeading !== "undefined") {
-        alpha = event.webkitCompassHeading; //for iOS devices
-        var heading = alpha
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
+    // Subscribes to the channel corresponding to current orientation.
+    function setOrientation() {
+      console.log('Subscribed to ' + ori);
+      pubnubDemo.unsubscribeAll();
+      pubnubDemo.subscribe({
+        channels: [ori]
+      });
+      document.getElementById('subscription').innerHTML = 'Subscribed to ' + ori;
+      document.getElementById('messages').innerHTML = '';
+    }
+    window.addEventListener("deviceorientation", function (event) {
+      // alpha: rotation around z-axis
+      rot = event.alpha;
+      if (rot < 45 || rot >= 316) {
+        ori = 'north';
+      } else if (rot < 135) {
+        ori = 'east';
+      } else if (rot < 225) {
+        ori = 'south';
+      } else if (rot < 315) {
+        ori = 'west';
       }
-      else {
-        alert("Your device is reporting relative alpha values, so this compass won't point north :(");
-        var heading = 360 - alpha; //heading [0, 360)
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
-      }
-
-    } 
+      document.getElementById('heading').innerHTML = 'Orientation: ' + ori;
+    }, true);
   </script>
 </body>
 
